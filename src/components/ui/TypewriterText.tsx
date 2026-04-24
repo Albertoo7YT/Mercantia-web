@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface TypewriterTextProps {
   words: string[];
@@ -20,11 +20,6 @@ export function TypewriterText({
   const [wordIndex, setWordIndex] = useState(0);
   const [displayed, setDisplayed] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
-
-  const longest = useMemo(
-    () => words.reduce((a, b) => (a.length >= b.length ? a : b), ''),
-    [words]
-  );
 
   useEffect(() => {
     const currentWord = words[wordIndex];
@@ -55,17 +50,12 @@ export function TypewriterText({
   }, [displayed, isDeleting, wordIndex, words, typeSpeed, deleteSpeed, pauseTime]);
 
   return (
-    <span className={`relative inline-block align-baseline ${className}`} aria-live="off">
-      <span className="invisible whitespace-pre" aria-hidden="true">
-        {longest}
-      </span>
-      <span className="absolute inset-0 whitespace-pre">
-        <span className="text-gradient">{displayed}</span>
-        <span
-          className="inline-block w-[0.06em] h-[0.82em] bg-accent ml-[0.06em] translate-y-[0.04em] animate-blink"
-          aria-hidden="true"
-        />
-      </span>
+    <span className={className} aria-live="off">
+      <span className="text-gradient">{displayed}</span>
+      <span
+        className="inline-block w-[0.06em] h-[0.82em] bg-accent ml-[0.06em] translate-y-[0.04em] animate-blink"
+        aria-hidden="true"
+      />
     </span>
   );
 }
