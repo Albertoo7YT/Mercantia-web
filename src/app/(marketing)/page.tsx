@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/sections/Hero';
+import { LiveDemo } from '@/components/sections/LiveDemo';
 import { Features } from '@/components/sections/Features';
 import { Trust } from '@/components/sections/Trust';
 import { Integrations } from '@/components/sections/Integrations';
@@ -19,6 +20,7 @@ export default function HomePage() {
         <Hero />
         <Features />
         <Trust />
+        <LiveDemo />
         <Integrations />
         <Compare />
         <FAQ />

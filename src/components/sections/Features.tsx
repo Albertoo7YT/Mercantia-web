@@ -5,7 +5,7 @@ import { FeatureCard } from '@/components/ui/FeatureCard';
 
 export function Features() {
   return (
-    <section className="pt-28 pb-12 relative" id="producto">
+    <section className="pt-8 md:pt-20 pb-12 relative" id="producto">
       <div className="max-w-[1220px] mx-auto px-6">
         <SectionHead
           eyebrow="El producto"

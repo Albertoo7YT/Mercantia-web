@@ -27,7 +27,7 @@ const integrations: IntCard[] = [
 
 export function Integrations() {
   return (
-    <section className="pt-0 pb-12 bg-gradient-to-b from-bg to-warm" id="integraciones">
+    <section className="pt-12 pb-12 bg-gradient-to-b from-bg to-warm" id="integraciones">
       <div className="max-w-[1220px] mx-auto px-6">
         <SectionHead
           eyebrow="Integraciones"

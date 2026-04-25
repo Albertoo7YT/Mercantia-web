@@ -67,10 +67,20 @@ export function CallRequestModal({ open, onClose }: CallRequestModalProps) {
     setErrorMsg('');
 
     try {
+      const params = new URLSearchParams(window.location.search);
+      const body = {
+        ...data,
+        referrer: document.referrer || null,
+        utmSource: params.get('utm_source'),
+        utmMedium: params.get('utm_medium'),
+        utmCampaign: params.get('utm_campaign'),
+        landingPath: window.location.pathname,
+      };
+
       const res = await fetch('/api/call-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(body),
       });
 
       if (!res.ok) {

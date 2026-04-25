@@ -1,3 +1,5 @@
+export const DEMO_URL = 'https://demo.mercantia.pro';
+
 export const CONTACT = {
   whatsapp: {
     number: '34711257657',

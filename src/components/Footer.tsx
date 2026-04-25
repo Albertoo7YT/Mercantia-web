@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
 
 export function Footer() {
@@ -12,20 +13,25 @@ export function Footer() {
             </p>
           </div>
           <FooterCol title="Producto">
-            <a href="#producto">Módulos</a>
-            <a href="#integraciones">Integraciones</a>
-            <a href="#comparativa">Por qué Mercantia</a>
-            <a href="#demo">Pedir demo</a>
+            <a href="https://demo.mercantia.pro" target="_blank" rel="noopener noreferrer">
+              Probar demo en vivo ↗
+            </a>
+            <a href="/#producto">Módulos</a>
+            <a href="/#integraciones">Integraciones</a>
+            <Link href="/precios">Precios</Link>
+            <a href="/#comparativa">Por qué Mercantia</a>
           </FooterCol>
           <FooterCol title="Empresa">
-            <a href="#">Sobre nosotros</a>
-            <a href="#">Contacto</a>
+            <Link href="/sobre-nosotros">Sobre nosotros</Link>
+            <Link href="/contacto">Contacto</Link>
             <a href="#">Estado</a>
           </FooterCol>
           <FooterCol title="Legal">
-            <a href="#">Privacidad</a>
-            <a href="#">Términos</a>
-            <a href="#">RGPD</a>
+            <Link href="/legal/aviso-legal">Aviso Legal</Link>
+            <Link href="/legal/privacidad">Privacidad</Link>
+            <Link href="/legal/terminos">Términos</Link>
+            <Link href="/legal/cookies">Cookies</Link>
+            <Link href="/legal/rgpd">RGPD</Link>
           </FooterCol>
         </div>
         <div className="pt-6 border-t border-[rgba(15,23,42,0.08)] flex justify-between items-center text-[13px] text-ink-3 max-md:flex-col max-md:gap-2 max-md:text-center">

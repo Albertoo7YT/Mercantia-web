@@ -1,0 +1,220 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ====== AUTH ======
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime  @default(now())
+  lastLoginAt  DateTime?
+
+  sessions Session[]
+
+  @@map("admin_users")
+}
+
+model Session {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  userId    String
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+
+  @@map("sessions")
+}
+
+// ====== LEADS ======
+
+enum LeadStatus {
+  NUEVA
+  CONTACTADA
+  DEMO_AGENDADA
+  CONVERTIDA
+  PERDIDA
+}
+
+model DemoLead {
+  id              String     @id @default(cuid())
+  nombre          String
+  empresa         String
+  email           String
+  telefono        String?
+  comerciales     String?
+  sector          String?
+  mensaje         String?    @db.Text
+
+  status          LeadStatus @default(NUEVA)
+  notas           String?    @db.Text
+  proximoContacto DateTime?
+
+  referrer        String?
+  utmSource       String?
+  utmMedium       String?
+  utmCampaign     String?
+  landingPath     String?
+
+  clientId        String?
+  client          Client?    @relation(fields: [clientId], references: [id])
+
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  activities      LeadActivity[] @relation("DemoLeadActivities")
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("demo_leads")
+}
+
+model CallLead {
+  id              String     @id @default(cuid())
+  nombre          String
+  telefono        String
+  mejorMomento    String?
+  mensaje         String?    @db.Text
+
+  status          LeadStatus @default(NUEVA)
+  notas           String?    @db.Text
+  proximoContacto DateTime?
+
+  referrer        String?
+  utmSource       String?
+  utmMedium       String?
+  utmCampaign     String?
+  landingPath     String?
+
+  clientId        String?
+  client          Client?    @relation(fields: [clientId], references: [id])
+
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  activities      LeadActivity[] @relation("CallLeadActivities")
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("call_leads")
+}
+
+model LeadActivity {
+  id          String    @id @default(cuid())
+  type        String
+  description String    @db.Text
+  metadata    Json?
+
+  demoLeadId  String?
+  demoLead    DemoLead? @relation("DemoLeadActivities", fields: [demoLeadId], references: [id], onDelete: Cascade)
+
+  callLeadId  String?
+  callLead    CallLead? @relation("CallLeadActivities", fields: [callLeadId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime  @default(now())
+  createdBy   String?
+
+  @@index([createdAt])
+  @@map("lead_activities")
+}
+
+// ====== CLIENTES ======
+
+enum ClientStatus {
+  ACTIVO
+  EN_PRUEBA
+  PAUSADO
+  BAJA
+}
+
+enum PaymentStatus {
+  AL_DIA
+  PENDIENTE
+  ATRASADO
+  SIN_FACTURA
+}
+
+model Client {
+  id               String        @id @default(cuid())
+  empresa          String
+  contactoNombre   String
+  contactoEmail    String
+  contactoTelefono String?
+  cif              String?
+  direccion        String?
+  sector           String?
+  plan             String        @default("STARTER")
+  comerciales      Int?
+  erp              String?
+  mrr              Float?
+
+  status           ClientStatus  @default(ACTIVO)
+  paymentStatus    PaymentStatus @default(SIN_FACTURA)
+  fechaAlta        DateTime      @default(now())
+  fechaBaja        DateTime?
+
+  notas            String?       @db.Text
+
+  demoLeads        DemoLead[]
+  callLeads        CallLead[]
+
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([status])
+  @@map("clients")
+}
+
+// ====== ANALÍTICA ======
+
+model PageView {
+  id          String   @id @default(cuid())
+  path        String
+  referrer    String?
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  utmContent  String?
+  utmTerm     String?
+  country     String?
+  device      String?
+  browser     String?
+  userAgent   String?
+  ipHash      String?
+  sessionId   String?
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([path])
+  @@index([sessionId])
+  @@map("page_views")
+}
+
+// ====== CONFIG ======
+
+model Settings {
+  key       String   @id
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
+
+model EmailTemplate {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  subject   String
+  body      String   @db.Text
+  enabled   Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+
+  @@map("email_templates")
+}

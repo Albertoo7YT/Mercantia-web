@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 interface TypewriterTextProps {
   words: string[];
@@ -20,6 +20,11 @@ export function TypewriterText({
   const [wordIndex, setWordIndex] = useState(0);
   const [displayed, setDisplayed] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const longest = useMemo(
+    () => words.reduce((a, b) => (a.length >= b.length ? a : b), ''),
+    [words]
+  );
 
   useEffect(() => {
     const currentWord = words[wordIndex];
@@ -50,12 +55,22 @@ export function TypewriterText({
   }, [displayed, isDeleting, wordIndex, words, typeSpeed, deleteSpeed, pauseTime]);
 
   return (
-    <span className={className} aria-live="off">
-      <span className="text-gradient">{displayed}</span>
+    <span className={`inline-grid align-baseline ${className}`} aria-live="off">
+      {/* Placeholder invisible: reserva el espacio del peor caso (palabra más larga, con wrap natural). */}
       <span
-        className="inline-block w-[0.06em] h-[0.82em] bg-accent ml-[0.06em] translate-y-[0.04em] animate-blink"
+        className="invisible col-start-1 row-start-1"
         aria-hidden="true"
-      />
+      >
+        {longest}
+      </span>
+      {/* Contenido visible superpuesto en la misma celda del grid. */}
+      <span className="col-start-1 row-start-1">
+        <span className="text-gradient">{displayed}</span>
+        <span
+          className="inline-block w-[0.06em] h-[0.82em] bg-accent ml-[0.06em] translate-y-[0.04em] animate-blink"
+          aria-hidden="true"
+        />
+      </span>
     </span>
   );
 }

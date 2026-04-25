@@ -1,78 +1,64 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-interface DemoPayload {
-  nombre?: string;
-  empresa?: string;
-  email?: string;
-  telefono?: string;
-  comerciales?: string;
-  sector?: string;
-  mensaje?: string;
-}
+import { prisma } from '@/lib/prisma';
+import { sendTemplateEmail, sendEmail } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   try {
-    const data: DemoPayload = await req.json();
+    const data = await req.json();
 
-    // Validación básica
     if (!data.nombre || !data.empresa || !data.email) {
-      return NextResponse.json(
-        { error: 'Faltan campos obligatorios' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Faltan campos obligatorios' }, { status: 400 });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email)) {
-      return NextResponse.json(
-        { error: 'Email inválido' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Email inválido' }, { status: 400 });
     }
 
-    // En este punto envías el email. Por defecto solo loguea.
-    // Descomenta el bloque inferior y configura SMTP en .env cuando estés listo.
-    console.log('📨 Nueva solicitud de demo:', {
-      ...data,
-      timestamp: new Date().toISOString(),
-    });
-
-    /* ─── Ejemplo con nodemailer (instalar: npm i nodemailer) ───
-    import nodemailer from 'nodemailer';
-
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT || 587),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
+    const lead = await prisma.demoLead.create({
+      data: {
+        nombre: data.nombre,
+        empresa: data.empresa,
+        email: data.email,
+        telefono: data.telefono || null,
+        comerciales: data.comerciales || null,
+        sector: data.sector || null,
+        mensaje: data.mensaje || null,
+        referrer: data.referrer || null,
+        utmSource: data.utmSource || null,
+        utmMedium: data.utmMedium || null,
+        utmCampaign: data.utmCampaign || null,
+        landingPath: data.landingPath || '/',
       },
     });
 
-    await transporter.sendMail({
-      from: process.env.SMTP_FROM,
-      to: process.env.DEMO_RECIPIENT,
-      subject: `Nueva solicitud de demo — ${data.empresa}`,
+    await sendTemplateEmail('demo_thanks', data.email, {
+      nombre: data.nombre,
+      empresa: data.empresa,
+    });
+
+    const notifEmail = process.env.NOTIFICATION_EMAIL || 'hola@mercantia.pro';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mercantia.pro';
+    await sendEmail({
+      to: notifEmail,
+      subject: `🔔 Nueva solicitud de demo — ${data.empresa}`,
       html: `
-        <h2>Nueva solicitud de demo</h2>
-        <p><strong>Nombre:</strong> ${data.nombre}</p>
+        <h2 style="font-family: sans-serif;">Nueva solicitud de demo</h2>
         <p><strong>Empresa:</strong> ${data.empresa}</p>
+        <p><strong>Nombre:</strong> ${data.nombre}</p>
         <p><strong>Email:</strong> ${data.email}</p>
         <p><strong>Teléfono:</strong> ${data.telefono || '—'}</p>
         <p><strong>Comerciales:</strong> ${data.comerciales || '—'}</p>
         <p><strong>Sector:</strong> ${data.sector || '—'}</p>
         <p><strong>Mensaje:</strong> ${data.mensaje || '—'}</p>
+        <hr>
+        <p><a href="${siteUrl}/admin/demos/${lead.id}">Ver en el panel →</a></p>
       `,
     });
-    */
 
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error('Error procesando demo:', err);
-    return NextResponse.json(
-      { error: 'Error interno del servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Error interno' }, { status: 500 });
   }
 }

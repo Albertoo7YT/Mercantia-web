@@ -15,15 +15,20 @@ git pull origin main
 echo "📦 Instalando dependencias..."
 npm ci --production=false
 
-# 3. Build
+# 3. Prisma: generar cliente y aplicar migraciones
+echo "🗄️  Aplicando migraciones de base de datos..."
+npx prisma generate
+npx prisma migrate deploy
+
+# 4. Build
 echo "🔨 Construyendo aplicación..."
 npm run build
 
-# 4. Restart PM2
+# 5. Restart PM2
 echo "♻️  Reiniciando PM2..."
 pm2 reload ecosystem.config.js --update-env
 
-# 5. Save PM2 state
+# 6. Save PM2 state
 pm2 save
 
 echo ""
