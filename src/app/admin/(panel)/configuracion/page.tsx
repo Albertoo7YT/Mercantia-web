@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { SettingsForm } from '@/components/admin/SettingsForm';
 import { TemplatesList } from '@/components/admin/TemplatesList';
+import { PasswordChangeForm } from '@/components/admin/PasswordChangeForm';
 
 export const metadata = { title: 'Configuración — Admin' };
 
@@ -16,11 +17,12 @@ export default async function ConfiguracionPage() {
     <div>
       <div className="admin-page-header">
         <h1>Configuración</h1>
-        <p className="admin-page-subtitle">Ajustes generales y plantillas de email</p>
+        <p className="admin-page-subtitle">Ajustes generales, seguridad y plantillas de email</p>
       </div>
 
       <div className="admin-config-grid">
         <SettingsForm initial={settingsMap} />
+        <PasswordChangeForm />
         <TemplatesList
           templates={templates.map((t) => ({
             id: t.id,
