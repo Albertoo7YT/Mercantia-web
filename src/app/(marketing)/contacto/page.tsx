@@ -165,7 +165,7 @@ function FounderBlock() {
             </svg>
           }
           label="Agenda llamada"
-          value="Te llamo yo"
+          value="Te llamamos"
         />
       </div>
     </div>
