@@ -166,7 +166,7 @@ const PLANS: Plan[] = [
 ];
 
 function PlansGrid() {
-  const [billing, setBilling] = useState<'monthly' | 'annual'>('monthly');
+  const [billing, setBilling] = useState<'monthly' | 'annual'>('annual');
   const { openDemo } = useDemo();
 
   return (
@@ -276,8 +276,8 @@ function PlanCard({ plan, billing, onCtaClick }: PlanCardProps) {
             </div>
             <div className="text-xs text-ink-3 mt-2 font-mono">
               {billing === 'annual'
-                ? `${annualPrice}€ facturados al año`
-                : 'Facturación mensual'}
+                ? `${annualPrice}€ facturados al año · sin IVA`
+                : 'Facturación mensual · sin IVA'}
             </div>
           </>
         )}

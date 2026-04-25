@@ -111,7 +111,7 @@ function FounderBlock() {
               Alberto Izquierdo
             </h2>
             <p className="text-[14px] text-ink-2 leading-relaxed">
-              Fundador de Mercantia. Detrás de cada email, WhatsApp o llamada estoy yo — encantado de ayudarte con lo que necesites.
+              En Mercantia nos tomamos el tiempo de entender qué necesitas antes de proponer nada. Te respondemos en menos de 24h, en horario laboral.
             </p>
           </div>
         </div>
