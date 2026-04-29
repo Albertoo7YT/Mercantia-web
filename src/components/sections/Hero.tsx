@@ -5,6 +5,14 @@ import { HeroMockup } from '@/components/HeroMockup';
 import { TypewriterText } from '@/components/ui/TypewriterText';
 import { DEMO_URL, whatsappUrl } from '@/lib/contact';
 
+const TYPEWRITER_PHRASES = [
+  'tus comerciales y tu ERP',
+  'los comerciales y la oficina',
+  'WhatsApp y tu sistema',
+  'la calle y la facturación',
+  'tu equipo y tus datos',
+];
+
 export function Hero() {
   return (
     <section className="pt-24 md:pt-28 pb-10 relative text-center">
@@ -15,11 +23,11 @@ export function Hero() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2.5 py-1 pl-1.5 pr-3.5 bg-surface border border-accent/30 rounded-full text-[13px] text-ink-2 mb-8 shadow-soft animate-fade-up hover:border-accent transition-colors group no-underline"
         >
-          <span className="bg-accent text-white font-semibold text-[10px] py-1 px-2 rounded-full uppercase tracking-wider flex items-center gap-1.5">
+          <span className="bg-accent text-white font-semibold text-[10px] py-1 px-2 rounded-full uppercase tracking-wider inline-flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
             Live
           </span>
-          <span>
+          <span className="ml-1">
             Demo pública disponible · sin registro
             <span className="text-accent ml-1.5 transition-transform group-hover:translate-x-0.5 inline-block">→</span>
           </span>
@@ -28,28 +36,20 @@ export function Hero() {
         <h1
           className="font-display font-bold mb-6 animate-fade-up [animation-delay:0.1s] [animation-fill-mode:both]"
           style={{
-            fontSize: 'clamp(44px, 7vw, 88px)',
-            lineHeight: '0.98',
+            fontSize: 'clamp(40px, 6.5vw, 80px)',
+            lineHeight: '1.02',
             letterSpacing: '-0.045em',
           }}
         >
-          Tus comerciales venden<br />
-          <TypewriterText
-            words={[
-              'sin fricciones.',
-              'desde cualquier lugar.',
-              'en tiempo real.',
-              'sin tocar un Excel.',
-              'con stock al día.',
-            ]}
-          />
+          La capa comercial entre<br />
+          <TypewriterText words={TYPEWRITER_PHRASES} />
         </h1>
 
         <p
-          className="text-ink-2 max-w-[600px] mx-auto mb-10 animate-fade-up [animation-delay:0.2s] [animation-fill-mode:both]"
+          className="text-ink-2 max-w-[640px] mx-auto mb-10 animate-fade-up [animation-delay:0.2s] [animation-fill-mode:both]"
           style={{ fontSize: 'clamp(17px, 1.4vw, 20px)', lineHeight: '1.55' }}
         >
-          Catálogo, stock, pedidos y garantías en un solo lugar. Tus representantes trabajan desde el móvil, la oficina recibe todo estructurado y el Excel desaparece.
+          Catálogo, stock, pedidos y garantías en un solo sitio. Tus comerciales venden desde el móvil, oficina recibe todo estructurado y tu ERP sigue siendo el mismo. Sin sustituir, sin migrar.
         </p>
 
         <div className="flex flex-col items-center gap-3 mb-4 animate-fade-up [animation-delay:0.3s] [animation-fill-mode:both]">

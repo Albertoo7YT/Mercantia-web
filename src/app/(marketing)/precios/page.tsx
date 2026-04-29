@@ -111,7 +111,7 @@ const PLANS: Plan[] = [
   {
     name: 'Starter',
     tagline: 'Para empezar',
-    monthly: 49,
+    monthly: 49.99,
     seats: { comerciales: 3, oficina: 1, admin: 1 },
     features: [
       'Todos los módulos del portal',
@@ -128,7 +128,7 @@ const PLANS: Plan[] = [
   {
     name: 'Pro',
     tagline: 'Cuando necesitas integrar',
-    monthly: 99,
+    monthly: 99.99,
     seats: { comerciales: 10, oficina: 3, admin: 2 },
     features: [
       'Todo lo de Starter',
@@ -140,7 +140,7 @@ const PLANS: Plan[] = [
   {
     name: 'Business',
     tagline: 'Operativa compleja',
-    monthly: 199,
+    monthly: 199.99,
     seats: { comerciales: 25, oficina: 8, admin: 5 },
     features: [
       'Todo lo de Pro',
@@ -194,7 +194,7 @@ function PlansGrid() {
             >
               Anual
               <span className="bg-accent text-white text-[10px] font-bold py-0.5 px-1.5 rounded-full">
-                2 meses gratis
+                1 mes gratis
               </span>
             </button>
           </div>
@@ -232,8 +232,17 @@ interface PlanCardProps {
 
 function PlanCard({ plan, billing, onCtaClick }: PlanCardProps) {
   const monthlyEquivalent =
-    billing === 'annual' ? Math.round((plan.monthly * 10) / 12) : plan.monthly;
-  const annualPrice = plan.monthly * 10;
+    billing === 'annual' ? (plan.monthly * 11) / 12 : plan.monthly;
+  const annualPrice = plan.monthly * 11;
+
+  // Spanish decimal format: integer part + ",XX"
+  const fmtSpanish = (n: number) =>
+    n.toFixed(2).replace('.', ',');
+  const splitPrice = (n: number) => {
+    const [int, dec] = n.toFixed(2).split('.');
+    return { int, dec };
+  };
+  const { int: priceInt, dec: priceDec } = splitPrice(monthlyEquivalent);
 
   return (
     <div
@@ -267,16 +276,19 @@ function PlanCard({ plan, billing, onCtaClick }: PlanCardProps) {
           </div>
         ) : (
           <>
-            <div className="flex items-baseline gap-1">
+            <div className="flex items-baseline gap-0.5">
               <span className="font-display text-[54px] font-bold tracking-tight leading-none">
-                {monthlyEquivalent}
+                {priceInt}
               </span>
-              <span className="font-display text-2xl font-bold text-ink-3 leading-none">€</span>
+              <span className="font-display text-[26px] font-bold text-ink leading-none tracking-tight">
+                ,{priceDec}
+              </span>
+              <span className="font-display text-2xl font-bold text-ink-3 leading-none ml-1">€</span>
               <span className="text-sm text-ink-3 ml-1.5">/mes</span>
             </div>
             <div className="text-xs text-ink-3 mt-2 font-mono">
               {billing === 'annual'
-                ? `${annualPrice}€ facturados al año · sin IVA`
+                ? `${fmtSpanish(annualPrice)}€ facturados al año · sin IVA`
                 : 'Facturación mensual · sin IVA'}
             </div>
           </>
@@ -678,7 +690,7 @@ const PRICING_FAQS = [
   },
   {
     q: '¿Ofrecéis algún descuento?',
-    a: 'Sí. El pago anual tiene 2 meses gratis (pagas 10 meses por 12). Además, aplicamos descuentos permanentes para entidades sin ánimo de lucro y centros educativos. Y para clientes que llevan 3+ años, un 10% adicional de fidelidad.',
+    a: 'Sí. El pago anual tiene 1 mes gratis (pagas 11 meses por 12). Además, aplicamos descuentos permanentes para entidades sin ánimo de lucro y centros educativos. Y para clientes que llevan 3+ años, un 10% adicional de fidelidad.',
   },
 ];
 

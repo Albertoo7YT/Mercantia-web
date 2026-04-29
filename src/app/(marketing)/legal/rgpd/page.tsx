@@ -3,7 +3,8 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Información RGPD — Mercantia',
-  description: 'Información extendida sobre el cumplimiento del RGPD en Mercantia.',
+  description:
+    'Cumplimiento del RGPD en Mercantia: rol como responsable y encargado del tratamiento, contrato art. 28, medidas técnicas de seguridad, brechas y derechos de los interesados.',
 };
 
 export default function RGPDPage() {

@@ -20,6 +20,7 @@ export function Footer() {
             <a href="/#integraciones">Integraciones</a>
             <Link href="/precios">Precios</Link>
             <a href="/#comparativa">Por qué Mercantia</a>
+            <Link href="/problemas/pedidos-whatsapp">Pedidos por WhatsApp</Link>
           </FooterCol>
           <FooterCol title="Empresa">
             <Link href="/sobre-nosotros">Sobre nosotros</Link>
@@ -36,7 +37,6 @@ export function Footer() {
         </div>
         <div className="pt-6 border-t border-[rgba(15,23,42,0.08)] flex justify-between items-center text-[13px] text-ink-3 max-md:flex-col max-md:gap-2 max-md:text-center">
           <div className="font-mono text-xs">© {new Date().getFullYear()} Mercantia · Todos los derechos reservados</div>
-          <div className="font-mono text-xs">Hecho por Alberto</div>
         </div>
       </div>
     </footer>

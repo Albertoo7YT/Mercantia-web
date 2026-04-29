@@ -6,7 +6,7 @@ export const CONTACT = {
     display: '+34 711 25 76 57',
     defaultMessage: 'Hola, me interesa Mercantia y me gustaría saber más.',
   },
-  email: 'hola@mercantia.app',
+  email: 'hola@mercantia.pro',
 } as const;
 
 export function whatsappUrl(message?: string): string {

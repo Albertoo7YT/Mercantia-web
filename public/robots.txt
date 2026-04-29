@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://mercantia.tudominio.com/sitemap.xml

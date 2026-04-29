@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Política de Cookies — Mercantia',
-  description: 'Información sobre el uso de cookies en Mercantia.',
+  description:
+    'Política de cookies de Mercantia: tipos de cookies que utilizamos (técnicas, analíticas, terceros), finalidades, transferencias internacionales y cómo gestionarlas.',
 };
 
 export default function CookiesPage() {

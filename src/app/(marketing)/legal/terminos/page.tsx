@@ -3,7 +3,8 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Términos y Condiciones — Mercantia',
-  description: 'Condiciones de uso del servicio Mercantia.',
+  description:
+    'Términos y condiciones de uso de Mercantia: contratación, planes, cancelación sin permanencia, obligaciones del cliente y prestador, SLA y limitación de responsabilidad.',
 };
 
 export default function TerminosPage() {

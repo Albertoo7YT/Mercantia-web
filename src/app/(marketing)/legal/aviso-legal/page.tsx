@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Aviso Legal — Mercantia',
-  description: 'Información legal requerida por la LSSI-CE sobre el titular de Mercantia.',
+  description:
+    'Aviso legal de Mercantia (A. Izquierdo SL): titular del sitio, condiciones de uso, propiedad intelectual y jurisdicción aplicable conforme a la LSSI-CE.',
 };
 
 export default function AvisoLegalPage() {
